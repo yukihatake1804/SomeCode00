@@ -20,19 +20,30 @@ namespace StudentManagement
             this.Load += IndexClassForm_Load;
             this.btnCreate.Click += btnCreate_Click;
             this.btnDelete.Click += btnDelete_Click;
+            this.btnUpdate.Click += btnUpdate_Click;
             this.grdClasses.DoubleClick += grdClasses_DoubleClick;
         }
 
         void grdClasses_DoubleClick(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            var @class = (Class)this.grdClasses.SelectedRows[0].DataBoundItem;
+            var updateForm = new UpdateForm(@class.Id);
+            updateForm.ShowDialog();
+            this.LoadAllClasses();  
         }
 
+         void btnUpdate_Click(object sender, EventArgs e)
+        {
+            var @class = (Class)this.grdClasses.SelectedRows[0].DataBoundItem;
+            var updateForm = new UpdateForm(@class.Id);
+            updateForm.ShowDialog();
+            this.LoadAllClasses();
+        }
+        
         void btnDelete_Click(object sender, EventArgs e)
         {
             var @class = (Class)this.grdClasses.SelectedRows[0].DataBoundItem;
-            var updateForm = new UpdateClassForm(@class.id);
-            updateForm.ShowDialog();
+            this.Businnes.DeleteClass(@class.Id);
             this.LoadAllClasses();
         }
 
@@ -53,12 +64,6 @@ namespace StudentManagement
             var classes = this.Business.GetClasses();
             this.grdClasses.DataSource = classes;
         }
-
-        private void grdClasses_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-       
+        
     }
 }
